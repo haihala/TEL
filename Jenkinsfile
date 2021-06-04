@@ -19,8 +19,6 @@ pipeline {
         stage('Clippy') {
             steps {
                 dir('TEL') {
-                    sh "rustup update"
-                    sh "rustup component add clippy"
                     sh "cargo clippy --all"
                 }
             }
@@ -30,7 +28,7 @@ pipeline {
                 // The build will fail if rustfmt thinks any changes are
                 // required.
                 dir('TEL') {
-                    sh "cargo fmt --all -- --write-mode diff"
+                    sh "cargo fmt --all -- --check"
                 }
             }
         }
