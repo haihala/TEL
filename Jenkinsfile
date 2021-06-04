@@ -19,6 +19,7 @@ pipeline {
         stage('Clippy') {
             steps {
                 dir('TEL') {
+                    sh "cargo install cargo-clippy"
                     sh "cargo clippy --all"
                 }
             }
