@@ -1,41 +1,48 @@
 pipeline {
-    agent {
-        table 'rust'
-    }
+    agent any
 
     stages {
-        dir('TEL')
         stage('Build') {
             steps {
-                sh "cargo build"
+                dir('TEL') {
+                    sh "cargo build"
+                }
             }
         }
         stage('Test') {
             steps {
-                sh "cargo test"
+                dir('TEL') {
+                    sh "cargo test"
+                }
             }
         }
         stage('Clippy') {
             steps {
-                sh "cargo clippy --all"
+                dir('TEL') {
+                    sh "cargo clippy --all"
+                }
             }
         }
         stage('Rustfmt') {
             steps {
                 // The build will fail if rustfmt thinks any changes are
                 // required.
-                sh "cargo fmt --all -- --write-mode diff"
+                dir('TEL') {
+                    sh "cargo fmt --all -- --write-mode diff"
+                }
             }
         }
         stage('Doc') {
             steps {
-                sh "cargo doc"
-                // We run a python `SimpleHTTPServer` against
-                // /var/lib/jenkins/jobs/<repo>/branches/master/javadoc to
-                // display our docs
-                step([$class: 'JavadocArchiver',
-                      javadocDir: 'target/doc',
-                      keepAll: false])
+                dir('TEL') {
+                    sh "cargo doc"
+                    // We run a python `SimpleHTTPServer` against
+                    // /var/lib/jenkins/jobs/<repo>/branches/master/javadoc to
+                    // display our docs
+                    step([$class: 'JavadocArchiver',
+                        javadocDir: 'target/doc',
+                        keepAll: false])
+                }
             }
         }
     }
