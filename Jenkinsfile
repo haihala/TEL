@@ -19,7 +19,8 @@ pipeline {
         stage('Clippy') {
             steps {
                 dir('TEL') {
-                    sh "cargo install cargo-clippy"
+                    sh "rustup update"
+                    sh "rustup component add clippy"
                     sh "cargo clippy --all"
                 }
             }
