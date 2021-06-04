@@ -1,24 +1,28 @@
 pipeline {
     agent any
 
+    environment {
+        CODE_DIRECTORY = 'task-event-log'
+    }
+
     stages {
         stage('Build') {
             steps {
-                dir('TEL') {
+                dir('${CODE_DIRECTORY}') {
                     sh "cargo build"
                 }
             }
         }
         stage('Test') {
             steps {
-                dir('TEL') {
+                dir('${CODE_DIRECTORY}') {
                     sh "cargo test"
                 }
             }
         }
         stage('Clippy') {
             steps {
-                dir('TEL') {
+                dir('${CODE_DIRECTORY}') {
                     sh "cargo clippy --all -- -D warnings"
                 }
             }
@@ -27,14 +31,14 @@ pipeline {
             steps {
                 // The build will fail if rustfmt thinks any changes are
                 // required.
-                dir('TEL') {
+                dir('${CODE_DIRECTORY}') {
                     sh "cargo fmt --all -- --check"
                 }
             }
         }
         stage('Doc') {
             steps {
-                dir('TEL') {
+                dir('${CODE_DIRECTORY}') {
                     sh "cargo doc"
                 }
             }
