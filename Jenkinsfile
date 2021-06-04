@@ -19,7 +19,7 @@ pipeline {
         stage('Clippy') {
             steps {
                 dir('TEL') {
-                    sh "cargo clippy --all"
+                    sh "cargo clippy --all -- -D warnings"
                 }
             }
         }

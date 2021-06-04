@@ -1,5 +1,5 @@
 [package]
-name = "TEL"
+name = "task-event-log"
 version = "0.1.0"
 authors = ["Eero Häihälä <eero.haihala@gmail.com>"]
 edition = "2018"
